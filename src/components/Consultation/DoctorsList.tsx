@@ -1,16 +1,26 @@
 "use client"
 
-import { getDoctors } from "@/app/(commonLayout)/consultation/_actions"
-import { useQuery } from "@tanstack/react-query"
+import { getDoctors } from "@/services/consultation.services";
+import { IDoctor } from "@/types/doctor.type";
+import { useQuery } from "@tanstack/react-query";
 
 const DoctorsList = () => {
-   const { data:doctors } = useQuery({
-  queryKey: ['doctors'],
-      queryFn: getDoctors,
-  })
-  console.log(doctors?.data);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['doctors'],
+    // Cast the return value so TypeScript knows data contains IDoctor[]
+    queryFn: async () => (await getDoctors()) as { data: IDoctor[] },
+  });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading doctors</p>;
+
   return (
-    <div>DoctorsList</div>
-  )
-}
-export default DoctorsList
+    <div>
+      {data?.data?.map((doctor) => (
+        <p key={doctor.id}>{doctor.name}</p>
+      ))}
+    </div>
+  );
+};
+
+export default DoctorsList;

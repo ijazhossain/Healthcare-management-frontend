@@ -11,7 +11,7 @@ import {
 import { useForm } from "@tanstack/react-form";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import AppField from "../shared/AppField";
+import AppField from "../shared/form/AppField";
 import { Button } from "../ui/button";
 import { loginZodSchema } from "@/zod/auth.validation";
 import { Alert, AlertDescription } from "../ui/alert";
@@ -103,7 +103,7 @@ const LoginForm = () => {
             </Alert>
           )}
           </div>
-          <form.Subscribe
+         {/*  <form.Subscribe
             selector={(s) => [s.canSubmit, s.isSubmitting] as const}
           >
             {([canSubmit, isSubmitting]) => (
@@ -130,7 +130,7 @@ const LoginForm = () => {
             )}
             
           
-          </form.Subscribe>
+          </form.Subscribe> */}
         </form>
       </CardContent>
     </Card>

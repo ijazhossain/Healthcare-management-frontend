@@ -1,6 +1,6 @@
 import type { AnyFieldApi } from "@tanstack/react-form";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import { Label } from "../../ui/label";
+import { Input } from "../../ui/input";
 import { cn } from "@/lib/utils";
 const getErrorMessage = (error: unknown): string => {
   if (typeof error === "string") return error;
@@ -38,7 +38,7 @@ const AppField = ({
 const hasError=firstError!==null;
   return <div className={cn("space-y-1.5",className)}>
     <Label htmlFor={field.name}
-     className={cn(hasError && "text-destructive")}
+     className={cn(hasError && "text-destructive","mt-3")}
     >
         {label}
     </Label>

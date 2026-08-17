@@ -6,7 +6,7 @@ const getErrorMessage = (error: unknown): string => {
   if (typeof error === "string") return error;
   if (error && typeof error === "object") {
     if ("message" in error && typeof error.message === "string") {
-        console.log(error);
+        // console.log(error);
       return error.message;
     }
   }
@@ -33,7 +33,7 @@ const AppField = ({
     className,
     disabled=false,
 }:AppFieldProps) => {
-    console.log(field);
+    // console.log(field);
     const firstError=field.state.meta.isTouched&&field.state.meta.errors.length>0?getErrorMessage(field.state.meta.errors[0]):null;
 const hasError=firstError!==null;
   return <div className={cn("space-y-1.5",className)}>

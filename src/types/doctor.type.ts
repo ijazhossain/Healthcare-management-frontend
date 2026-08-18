@@ -1,15 +1,6 @@
-export enum Gender {
-    MALE = "MALE",
-    FEMALE = "FEMALE",
-    OTHER = "OTHER"
-}
+import { Gender } from "@/enums/user.enums";
 
-export enum UserStatus {
-    ACTIVE = "ACTIVE",
-  BLOCKED = "BLOCKED",
-  DELETED = "DELETED",
-}
-
+import { UserStatus } from "@/enums/user.enums";
 
 export interface IDoctor {
     id: number;

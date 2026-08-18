@@ -9,3 +9,4 @@ export const loginZodSchema = z.object({
     .min(8, { error: "Password must be at least 8 characters long." })
     .max(20, { error: "Password length must be 20 characters or less." }),
 });
+export type ILoginPayload=z.infer<typeof loginZodSchema>;

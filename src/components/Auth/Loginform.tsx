@@ -13,24 +13,38 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import AppField from "../shared/form/AppField";
 import { Button } from "../ui/button";
-import { loginZodSchema } from "@/zod/auth.validation";
+import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
 import { Alert, AlertDescription } from "../ui/alert";
 import AppSubmitButton from "../shared/form/AppSubmitButton";
 import GoogleLoginButton from "../shared/form/GoogleLoginButton";
 import FormDivider from "../shared/form/FormDivider";
 import Link from "next/link";
 import FormFooter from "../shared/form/FormFooter";
+import { useMutation } from "@tanstack/react-query";
+
+
+import { loginAction } from "@/services/login.services";
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const{mutateAsync,isPending}=useMutation({
+    mutationFn:(payload:ILoginPayload)=>loginAction(payload)
+  })
   const form = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
-    onSubmit: ({ value }) => {
-      //   console.log(value);
+    onSubmit: async({ value }) => {
+         setServerError(null);
+         console.log(value);
       try {
+        const result=await mutateAsync(value)as any;
+        console.log("result",result);
+         if(!result.success ){
+                    setServerError(result.message || "Login failed");
+                    return ;
+                }
       } catch (error: any) {
         setServerError(null);
         console.log(`Login failed: ${error.message}`);
@@ -55,9 +69,9 @@ const LoginForm = () => {
             action="#"
             noValidate
             onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              form.handleSubmit();
+               e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
             }}
             className="space-y-4"
           >
@@ -124,8 +138,7 @@ const LoginForm = () => {
               {([canSubmit, isSubmitting]) => (
                 <AppSubmitButton
                   isPending={
-                    isSubmitting
-                    // ||isPending
+                    isSubmitting||isPending
                   }
                   pendingLabel="Logging In..."
                   disabled={!canSubmit}

@@ -39,12 +39,12 @@ const LoginForm = () => {
          setServerError(null);
          console.log(value);
       try {
-        const result=await mutateAsync(value)as any;
-        console.log("result",result);
-         if(!result.success ){
-                    setServerError(result.message || "Login failed");
-                    return ;
-                }
+        await mutateAsync(value)as any;
+        // console.log("result",result);
+        //  if(!result.success ){
+        //             setServerError(result.message || "Login failed");
+        //             return ;
+        //         }
       } catch (error: any) {
         setServerError(null);
         console.log(`Login failed: ${error.message}`);

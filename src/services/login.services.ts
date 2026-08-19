@@ -6,17 +6,21 @@ import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
 
 export const loginAction = async (payload: ILoginPayload) => {
   const parsedPayload = loginZodSchema.safeParse(payload);
-  console.log("parsedPayload", parsedPayload);
+  // console.log("parsedPayload", parsedPayload);
   try {
     if (!parsedPayload.success) {
-      // console.log(parsedPayload);
+      console.log(parsedPayload);
     }
     const response = await httpClient.post<ILoginResponse>(
       "/auth/login",
       parsedPayload.data,
     );
     // console.log("response",response);
-    return response.data;
+    const{accessToken,refreshToken,
+      token,user
+    }=response.data;
+    const {role,emailVerified,needPasswordChange,email}=user;
+    
   } catch (error: any) {
     console.log(error);
     return {

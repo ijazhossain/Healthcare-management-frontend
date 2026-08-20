@@ -10,7 +10,7 @@ import {
 } from "../ui/card";
 import { useForm } from "@tanstack/react-form";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import AppField from "../shared/form/AppField";
 import { Button } from "../ui/button";
 import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
@@ -21,36 +21,40 @@ import FormDivider from "../shared/form/FormDivider";
 import Link from "next/link";
 import FormFooter from "../shared/form/FormFooter";
 import { useMutation } from "@tanstack/react-query";
+import { loginAction } from "@/app/(commonLayout)/(authRouteGroup)/login/_action";
+import { useRouter } from "next/navigation";
 
 
-import { loginAction } from "@/services/login.services";
-const LoginForm = () => {
+interface LoginFormProps {
+    redirectPath ?: string;
+}
+const LoginForm = ({ redirectPath }: LoginFormProps) => {
+  const [, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const router = useRouter();
   const{mutateAsync,isPending}=useMutation({
-    mutationFn:(payload:ILoginPayload)=>loginAction(payload)
+    mutationFn:(payload:ILoginPayload)=>loginAction(payload,redirectPath)
   })
   const form = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
-    onSubmit: async({ value }) => {
-         setServerError(null);
-         console.log(value);
-      try {
-        await mutateAsync(value)as any;
-        // console.log("result",result);
-        //  if(!result.success ){
-        //             setServerError(result.message || "Login failed");
-        //             return ;
-        //         }
-      } catch (error: any) {
-        setServerError(null);
-        console.log(`Login failed: ${error.message}`);
-        setServerError(`Login failed: ${error.message}`);
-      }
-    },
+    onSubmit: async ({ value }) => {
+  setServerError(null);
+  const result = (await mutateAsync(value)) as any;
+console.log("LOGIN RESULT:", result);
+if (result?.redirectUrl) {
+   startTransition(() => {
+    router.push(result.redirectUrl);
+  });
+  return;
+}
+if (result?.success === false) {
+  setServerError(result.message || "Login failed");
+}
+},
   });
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 ">

@@ -87,7 +87,7 @@ const httpPost = async <TData>(endpoint: string, data: unknown, options?: ApiReq
             params: options?.params,
             headers: options?.headers,
         });
-        console.log(response)
+        // console.log(response)
         return response.data;
     } catch (error) {
         console.error(`POST request to ${endpoint} failed:`, error);

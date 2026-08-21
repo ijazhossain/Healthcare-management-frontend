@@ -10,7 +10,7 @@ import {
 } from "../ui/card";
 import { useForm } from "@tanstack/react-form";
 import { Eye, EyeOff } from "lucide-react";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import AppField from "../shared/form/AppField";
 import { Button } from "../ui/button";
 import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
@@ -22,39 +22,43 @@ import Link from "next/link";
 import FormFooter from "../shared/form/FormFooter";
 import { useMutation } from "@tanstack/react-query";
 import { loginAction } from "@/app/(commonLayout)/(authRouteGroup)/login/_action";
-import { useRouter } from "next/navigation";
-
 
 interface LoginFormProps {
-    redirectPath ?: string;
+  redirectPath?: string;
 }
 const LoginForm = ({ redirectPath }: LoginFormProps) => {
-  const [, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
-  const router = useRouter();
-  const{mutateAsync,isPending}=useMutation({
-    mutationFn:(payload:ILoginPayload)=>loginAction(payload,redirectPath)
-  })
+  // const router = useRouter();
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (payload: ILoginPayload) => loginAction(payload, redirectPath),
+  });
   const form = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
     onSubmit: async ({ value }) => {
-  setServerError(null);
-  const result = (await mutateAsync(value)) as any;
-console.log("LOGIN RESULT:", result);
-if (result?.redirectUrl) {
-   startTransition(() => {
-    router.push(result.redirectUrl);
-  });
-  return;
-}
-if (result?.success === false) {
-  setServerError(result.message || "Login failed");
-}
-},
+      try {
+        setServerError(null);
+        (await mutateAsync(value)) as any;
+        /* if want to redirect from client  */
+        // if (result?.redirectUrl) {
+
+        //     router.push(result.redirectUrl);
+
+        //   return;
+        // }
+        // if (result?.success === false) {
+        //   setServerError(result.message || "Login failed");
+        // }
+      } catch (error: any) {
+        if (error && error?.message !== "NEXT_REDIRECT") {
+          console.log(`Login failed: ${error.message}`);
+          setServerError(`Login failed: ${error.message}`);
+        }
+      }
+    },
   });
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 ">
@@ -73,9 +77,9 @@ if (result?.success === false) {
             action="#"
             noValidate
             onSubmit={(e) => {
-               e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
+              e.preventDefault();
+              e.stopPropagation();
+              form.handleSubmit();
             }}
             className="space-y-4"
           >
@@ -141,9 +145,7 @@ if (result?.success === false) {
             >
               {([canSubmit, isSubmitting]) => (
                 <AppSubmitButton
-                  isPending={
-                    isSubmitting||isPending
-                  }
+                  isPending={isSubmitting || isPending}
                   pendingLabel="Logging In..."
                   disabled={!canSubmit}
                 >

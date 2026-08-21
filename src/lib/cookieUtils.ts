@@ -1,55 +1,26 @@
-// "use server"
+"use server"
 
-// import { cookies } from "next/headers"
+import { cookies } from "next/headers"
 
-// export const setCookie=async(name:string,
-//     value:string,
-//     maxAgeInSeconds:number,
-// )=>{
-//     const cookieStore=await cookies();
-//     cookieStore.set(name,value,{
-//         httpOnly:true,
-//         secure:true,
-//         sameSite:"lax",
-//         path:"/",
-//         maxAge:maxAgeInSeconds,
-//     })
-
-// }
-// export const getCookie=async(name:string)=>{
-//     const cookieStore=await cookies();
-//     return cookieStore.get(name)?.value;
-// }
-// export const deleteCookie=async(name:string)=>{
-//     const cookieStore=await cookies();
-//     cookieStore.delete(name);
-// }
-"use server";
-
-import { cookies } from "next/headers";
-
-export const setCookie = async (
-    name : string,
-    value : string,
-    maxAgeInSeconds : number,
-) => {
-    const cookieStore = await cookies();
-
-    cookieStore.set(name, value, {
-        httpOnly : true,
-        secure : true,
-        sameSite : "lax",
-        path : "/",
-        maxAge : maxAgeInSeconds,
+export const setCookie=async(name:string,
+    value:string,
+    maxAgeInSeconds:number,
+)=>{
+    const cookieStore=await cookies();
+    cookieStore.set(name,value,{
+        httpOnly:true,
+        secure:true,
+        sameSite:"lax",
+        path:"/",
+        maxAge:maxAgeInSeconds,
     })
-}
 
-export const getCookie = async (name : string) => {
-    const cookieStore = await cookies();
+}
+export const getCookie=async(name:string)=>{
+    const cookieStore=await cookies();
     return cookieStore.get(name)?.value;
 }
-
-export const deleteCookie = async (name : string) => {
-    const cookieStore = await cookies();
+export const deleteCookie=async(name:string)=>{
+    const cookieStore=await cookies();
     cookieStore.delete(name);
 }

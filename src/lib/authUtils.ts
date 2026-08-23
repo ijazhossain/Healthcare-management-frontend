@@ -1,3 +1,4 @@
+// import { UserRole } from "@/enums/user.enums";
 import { UserRole } from "@/enums/user.enums";
 import { RouteConfig } from "@/types/route.type";
 
@@ -51,7 +52,7 @@ export const getRouteOwner = (
   return null;
 };
 export const getDefaultDashboardRoute = (role: UserRole) => {
-  if (role == UserRole.ADMIN || role === UserRole.SUPER_ADMIN) {
+  if (role === UserRole.ADMIN || role === UserRole.SUPER_ADMIN) {
     return "/admin/dashboard";
   }
   if (role === UserRole.DOCTOR) {

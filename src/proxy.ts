@@ -40,7 +40,7 @@ console.log("decodedAccessToken",decodedAccessToken);
        }
 
        const routerOwner = getRouteOwner(pathname);
-console.log("routerOwner",routerOwner);
+// console.log("routerOwner",routerOwner);
        const unifySuperAdminAndAdminRole = userRole===UserRole.SUPER_ADMIN? UserRole.ADMIN : userRole;
 
        userRole = unifySuperAdminAndAdminRole;

@@ -13,10 +13,10 @@ const DoctorsList = () => {
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading doctors</p>;
-
+// console.log(data?.data);
   return (
     <div>
-      {data?.data?.map((doctor) => (
+      {data?.data?.map((doctor:IDoctor) => (
         <p key={doctor.id}>{doctor.name}</p>
       ))}
     </div>

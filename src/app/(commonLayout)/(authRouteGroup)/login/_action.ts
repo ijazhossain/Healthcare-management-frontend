@@ -1,7 +1,7 @@
 "use server"
 
-import { UserRole } from "@/enums/user.enums";
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { UserRole } from "@/enums/user.enums";
 
 import { getDefaultDashboardRoute, isValidRedirectForRole } from "@/lib/authUtils";
 import { httpClient } from "@/lib/axios/httpClient";

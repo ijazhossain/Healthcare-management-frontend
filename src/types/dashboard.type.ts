@@ -1,11 +1,11 @@
-export interface NavItems{
+export interface NavItem{
     title:string,
     href:string,
     icon:string,
 }
 export interface NavSection{
     title?:string,
-    items:NavItems[],
+    items:NavItem[],
 }
 export interface PieChartData{
     status:string,

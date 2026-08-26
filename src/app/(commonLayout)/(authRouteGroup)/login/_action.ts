@@ -26,7 +26,7 @@ export const loginAction =async (
   try {
     const response = await httpClient.post<ILoginResponse>("/auth/login", parsedPayload.data);
     const { accessToken, refreshToken, token, user } = response.data;
-    console.log("response.data",response.data);
+    // console.log("response.data",response.data);
     const { role, needPasswordChange, email } = user;
 
     await setTokenInCookies("accessToken", accessToken);

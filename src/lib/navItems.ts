@@ -159,7 +159,7 @@ export const patientNavItems: NavSection[] = [
     ],
   },
 ];
-export const getCommonNavItemsBtRole = (role: UserRole) => {
+export const getCommonNavItemsByRole = (role: UserRole) => {
   const commonNavItems = getCommonNavItems(role);
   switch (role) {
     case UserRole.SUPER_ADMIN:

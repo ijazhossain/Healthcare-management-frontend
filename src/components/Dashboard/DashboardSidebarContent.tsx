@@ -21,7 +21,7 @@ const DashboardSidebarContent = ({
   const pathname = usePathname();
   return (
     //To do
-    <div className="">
+    <div className="flex h-full  flex-col border-r bg-card overflow-y-auto">
       {/* Logo */}
       <div className="flex h-16 items-center px-6 border-b bg">
         <Link href={dashboardHome}>
